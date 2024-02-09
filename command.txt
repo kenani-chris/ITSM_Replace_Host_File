@@ -1,0 +1,10 @@
+FOR /F %C in (computers.txt) do (
+ping -n 1 %C | find "TTL" 
+if not errorlevel 1 ( 
+echo %C >> C:\users\Username\documents\pstools\logs\reachable.txt
+echo %date% %time%: created log file >> C:\users\Username\documents\pstools\logs\pc_logs.txt
+echo =============================================================================== >C:\users\Usernamedocuments\pstools\logs\pc_logs.txt
+echo %date% %time%: Copying the files to the local computer >> C:\users\Username\documents\pstools\logs\pc_logs.txt
+psexec64.exe -i \\%C -h -u domain\Username -p Password cmd /c copy "\\10.40.3.60\Application Setups\Utilities\host_update\hosts" "C:\Windows\System32\drivers\etc\hosts"
+)else ( echo %C >> C:\users\Username\documents\pstools\logs\unreachable.txt)
+)
